@@ -58,7 +58,7 @@ Ball.prototype.collisionDetect = function () {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < this.size + balls[j].size) {
-                balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')';
+                balls[j].color = 'rgb(255,255,255)';
             }
         }
     }
@@ -82,15 +82,26 @@ while (balls.length < 25) {
     balls.push(ball);
 }
 
+let evil_ball = new Ball(
+    width/2,
+    height/2,
+    0,
+    0,
+    'rgb(51,0,102)',
+    30
+);
+
 function loop() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < balls.length; i++) {
         balls[i].draw();
         balls[i].update();
-        balls[i].collisionDetect();
     }
+    
+    evil_ball.draw();
+    evil_ball.collisionDetect();
 
     requestAnimationFrame(loop);
 }
