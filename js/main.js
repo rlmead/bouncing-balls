@@ -96,13 +96,29 @@ let hungry_ball = new Ball(
 
 document.addEventListener("keydown", event => {
     if (event.keyCode === 37) {
-        hungry_ball.x -= 5;
+        hungry_ball.x -= 6;
     } else if (event.keyCode === 38) {
-        hungry_ball.y -= 5;
+        hungry_ball.y -= 6;
     } else if (event.keyCode === 39) {
-        hungry_ball.x += 5;
+        hungry_ball.x += 6;
     } else if (event.keyCode === 40) {
-        hungry_ball.y += 5;
+        hungry_ball.y += 6;
+    }
+
+    if ((hungry_ball.x + hungry_ball.size) >= width) {
+        hungry_ball.x = hungry_ball.size;
+    }
+
+    if ((hungry_ball.x - hungry_ball.size) <= 0) {
+        hungry_ball.x = width - hungry_ball.size;
+    }
+
+    if ((hungry_ball.y + hungry_ball.size) >= height) {
+        hungry_ball.y = hungry_ball.size;
+    }
+
+    if ((hungry_ball.y - hungry_ball.size) <= 0) {
+        hungry_ball.y = height - hungry_ball.size;
     }
 });
 
