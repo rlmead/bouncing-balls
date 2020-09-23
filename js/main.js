@@ -58,7 +58,7 @@ Ball.prototype.collisionDetect = function () {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < this.size + balls[j].size) {
-                balls[j].color = 'rgb(255,255,255)';
+                balls[j].color = 'rgb(255,255,255,0)';
             }
         }
     }
@@ -66,7 +66,7 @@ Ball.prototype.collisionDetect = function () {
 
 let balls = [];
 
-while (balls.length < 25) {
+while (balls.length < 40) {
     let size = random(10, 20);
     let ball = new Ball(
         // ball position always drawn at least one ball width
@@ -83,12 +83,12 @@ while (balls.length < 25) {
 }
 
 let evil_ball = new Ball(
-    width/2,
-    height/2,
+    40,
+    40,
     0,
     0,
-    'rgb(51,0,102)',
-    30
+    'rgb(80,0,150)',
+    20
 );
 
 function loop() {
