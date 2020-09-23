@@ -58,7 +58,10 @@ Ball.prototype.collisionDetect = function () {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < this.size + balls[j].size) {
-                balls[j].color = this.color = 'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')';
+                if (balls[j].color != 'rgb(255,255,255,0)') {
+                    balls[j].color = 'rgb(255,255,255,0)';
+                    this.size += 1;
+                }
             }
         }
     }
@@ -66,7 +69,7 @@ Ball.prototype.collisionDetect = function () {
 
 let balls = [];
 
-while (balls.length < 25) {
+while (balls.length < 40) {
     let size = random(10, 20);
     let ball = new Ball(
         // ball position always drawn at least one ball width
@@ -75,22 +78,61 @@ while (balls.length < 25) {
         random(0 + size, height - size),
         random(-7, 7),
         random(-7, 7),
-        'rgb(' + random(0, 255) + ',' + random(0, 255) + ',' + random(0, 255) + ')',
+        'rgb(' + random(200, 255) + ',' + random(200, 255) + ',' + random(200, 255) + ')',
         size
     );
 
     balls.push(ball);
 }
 
+let hungry_ball = new Ball(
+    40,
+    40,
+    0,
+    0,
+    'rgb(80,0,150)',
+    3
+);
+
+document.addEventListener("keydown", event => {
+    if (event.keyCode === 37) {
+        hungry_ball.x -= 6;
+    } else if (event.keyCode === 38) {
+        hungry_ball.y -= 6;
+    } else if (event.keyCode === 39) {
+        hungry_ball.x += 6;
+    } else if (event.keyCode === 40) {
+        hungry_ball.y += 6;
+    }
+
+    if ((hungry_ball.x + hungry_ball.size) >= width) {
+        hungry_ball.x = hungry_ball.size;
+    }
+
+    if ((hungry_ball.x - hungry_ball.size) <= 0) {
+        hungry_ball.x = width - hungry_ball.size;
+    }
+
+    if ((hungry_ball.y + hungry_ball.size) >= height) {
+        hungry_ball.y = hungry_ball.size;
+    }
+
+    if ((hungry_ball.y - hungry_ball.size) <= 0) {
+        hungry_ball.y = height - hungry_ball.size;
+    }
+});
+
 function loop() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 1)';
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < balls.length; i++) {
         balls[i].draw();
         balls[i].update();
-        balls[i].collisionDetect();
     }
+
+    hungry_ball.draw();
+    hungry_ball.collisionDetect();
 
     requestAnimationFrame(loop);
 }
