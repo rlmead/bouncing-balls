@@ -106,7 +106,7 @@ document.addEventListener("keydown", event => {
     }
 
     if ((hungry_ball.x + hungry_ball.size) >= width) {
-        hungry_ball.x = hungry_ball.size;
+        hungry_ball.x = hungry_ball.size * 2;
     }
 
     if ((hungry_ball.x - hungry_ball.size) <= 0) {
@@ -114,7 +114,7 @@ document.addEventListener("keydown", event => {
     }
 
     if ((hungry_ball.y + hungry_ball.size) >= height) {
-        hungry_ball.y = hungry_ball.size;
+        hungry_ball.y = hungry_ball.size * 2;
     }
 
     if ((hungry_ball.y - hungry_ball.size) <= 0) {
