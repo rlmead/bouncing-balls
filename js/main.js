@@ -59,8 +59,11 @@ Ball.prototype.collisionDetect = function () {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < this.size + balls[j].size) {
-                balls[j].display = false;
+                balls[j].display = false; // stop drawing balls once they've been eaten by the hungry ball
                 this.size += 1;
+                if (this.size > 7 && this.size % 3 === 0) {
+                    hungry_ball_speed -= 1; // hungry_ball starts losing speed at a regular rate after it reaches a certain size
+                }
             }
         }
     }
@@ -95,15 +98,17 @@ let hungry_ball = new Ball(
     true
 );
 
+let hungry_ball_speed = 15;
+
 document.addEventListener("keydown", event => {
     if (event.keyCode === 37) {
-        hungry_ball.x -= 6;
+        hungry_ball.x -= hungry_ball_speed;
     } else if (event.keyCode === 38) {
-        hungry_ball.y -= 6;
+        hungry_ball.y -= hungry_ball_speed;
     } else if (event.keyCode === 39) {
-        hungry_ball.x += 6;
+        hungry_ball.x += hungry_ball_speed;
     } else if (event.keyCode === 40) {
-        hungry_ball.y += 6;
+        hungry_ball.y += hungry_ball_speed;
     }
 
     if ((hungry_ball.x + hungry_ball.size) >= width) {
