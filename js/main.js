@@ -13,13 +13,14 @@ function random(min, max) {
     return num;
 }
 
-function Ball(x, y, velX, velY, color, size) {
+function Ball(x, y, velX, velY, color, size, display) {
     this.x = x;
     this.y = y;
     this.velX = velX;
     this.velY = velY;
     this.color = color;
     this.size = size;
+    this.display = display;
 }
 
 Ball.prototype.draw = function () {
@@ -52,16 +53,14 @@ Ball.prototype.update = function () {
 
 Ball.prototype.collisionDetect = function () {
     for (let j = 0; j < balls.length; j++) {
-        if (!(this === balls[j])) {
+        if (balls[j].display) {
             const dx = this.x - balls[j].x;
             const dy = this.y - balls[j].y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < this.size + balls[j].size) {
-                if (balls[j].color != 'rgb(255,255,255,0)') {
-                    balls[j].color = 'rgb(255,255,255,0)';
-                    this.size += 1;
-                }
+                balls[j].display = false;
+                this.size += 1;
             }
         }
     }
@@ -79,7 +78,8 @@ while (balls.length < 40) {
         random(-7, 7),
         random(-7, 7),
         'rgb(' + random(200, 255) + ',' + random(200, 255) + ',' + random(200, 255) + ')',
-        size
+        size,
+        true
     );
 
     balls.push(ball);
@@ -91,7 +91,8 @@ let hungry_ball = new Ball(
     0,
     0,
     'rgb(80,0,150)',
-    3
+    3,
+    true
 );
 
 document.addEventListener("keydown", event => {
@@ -127,8 +128,10 @@ function loop() {
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < balls.length; i++) {
-        balls[i].draw();
-        balls[i].update();
+        if (balls[i].display) {
+            balls[i].draw();
+            balls[i].update();
+        }
     }
 
     hungry_ball.draw();
